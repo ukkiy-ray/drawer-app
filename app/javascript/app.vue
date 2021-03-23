@@ -14,7 +14,7 @@
         <v-flex xs8>
           <div style="width: 100%; margin: 5px 0 20px 0; display: flex; justify-content: center;">
             <p style="margin-right: 20px;">Bookmark 一覧</p>
-            <v-btn>+ Bookmarkを追加する</v-btn>
+            <v-btn @click="togglePostModal()">+ Bookmarkを追加する</v-btn>
           </div>
           
           <v-layout>
@@ -69,6 +69,31 @@
             <v-btn @click="postBookmark">submit</v-btn>
         </v-flex>
       </v-layout>
+
+      <!-- 新規投稿用モーダルウィンドウ -->
+        <v-dialog v-model="dialogPostFlag" width="400px" persistent>
+          <v-card>
+            <v-card-title class="headline blue-grey darken-3 white--text" primary-title>
+              Create Form
+            </v-card-title>
+
+            <v-text-field v-model="postTitle" :counter="50" label="Title" required style='margin:20px;'></v-text-field> 
+            <v-text-field v-model="postUrl" label="URL" required style='margin:20px;'></v-text-field> 
+            <v-text-field v-model="postCategory" label="Category" required style='margin:20px;'></v-text-field> 
+
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn dark @click="togglePostModal">
+                Cancel
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn @click="postBookmark">
+                Add Bookmark
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
     </v-container>
   </v-app> 
 </template>
@@ -80,6 +105,7 @@ export default {
   data: function () {
     return {
       bookmarks: "bookmarks",
+      dialogPostFlag: false,
       postTitle: "",
       postUrl: "",
       postCategory: "",
@@ -95,6 +121,9 @@ export default {
         this.bookmarks = response.data
       ))
     },
+    togglePostModal: function() {
+      this.dialogPostFlag = !this.dialogPostFlag
+    },
     postBookmark: function() {
       axios.post('/api/bookmarks', {title:this.postTitle,url:this.postUrl,category:this.postCategory})
         .then(response => {
@@ -104,6 +133,7 @@ export default {
           this.postCategory = ''
         }
       );
+      this.dialogPostFlag = !this.dialogPostFlag
     },
     deleteBookmark(id) {
       if (confirm("このBookmarkを削除しますか？")) {
