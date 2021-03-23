@@ -1,1 +1,1 @@
-json.array! @bookmarks, :title, :url, :category
+json.array! @bookmarks, :id, :title, :url, :category
