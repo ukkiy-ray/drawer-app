@@ -3,14 +3,20 @@
 
     <v-container style="height: 1000px; max-width: 2400px;">
       <v-layout>
-        <v-flex xs2 style="justify-content: center; padding: 0 5px">
-          
+        <v-flex xs2 style="justify-content: center; padding: 20px 5px 0 5px">
+          <h3>フリーワードで探す</h3>
+          <v-text-field label="Input Keyword" style='margin-top:4px'></v-text-field>
+          <br>
+          <h3>カテゴリーごとに絞る</h3>
+          <v-select
+            :items="items"
+            label="Category">
+          </v-select>
         </v-flex>
 
         <v-flex xs8>
           <div style="width: 100%; margin: 5px 0 20px 0; display: flex; justify-content: center;">
             <h1>Bookmark 一覧</h1>
-            
           </div>
           
           <v-layout>
@@ -19,7 +25,7 @@
               <v-card v-for="bookmark in bookmarks" :key="bookmark.id" style="margin: 10px; width: 25%">
                 <v-card-title primary-title>
                   <div>
-                    <h3 class="headline mb-0">{{ bookmark.title }}</h3>
+                    <h3 class="headline mb-0"><a href="#">{{ bookmark.title }}</a></h3>
                     <hr>
                     <div>#{{ bookmark.category }}</div>
                   </div>
@@ -44,7 +50,7 @@
       </v-layout>
 
       <!-- 新規投稿用モーダルウィンドウ -->
-        <v-dialog v-model="dialogPostFlag" width="400px" persistent>
+        <v-dialog v-model="dialogPostFlag" width="500px" persistent>
           <v-card>
             <v-card-title class="headline blue-grey darken-3 white--text" primary-title>
               Create Form
