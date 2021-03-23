@@ -1,4 +1,6 @@
 class Api::BookmarksController < ApplicationController
+  protect_from_forgery :except => [:create]
+
   def index
     @bookmarks = Bookmark.order('created_at DESC')
   end
@@ -7,4 +9,18 @@ class Api::BookmarksController < ApplicationController
     @bookmark = Bookmark.find(params[:id])
     render 'show', formats: 'json', handlers: 'jbuilder'
   end
+
+  def create
+    @bookmark = Bookmark.new(bookmark_params)
+    if @bookmark.save
+      render :show, status: :created
+    else
+      render json: @bookmark.errors, status: :unprocessable_entity
+    end
+  end
+ 
+  private
+    def bookmark_params
+      params.permit(:title, :url, :category)
+    end
 end

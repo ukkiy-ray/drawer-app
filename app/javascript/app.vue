@@ -4,11 +4,7 @@
     <v-container style="height: 1000px; max-width: 2400px;">
       <v-layout>
         <v-flex xs2 style="justify-content: center; padding: 0 15px">
-          <v-select
-              v-model="category"
-              :items="categories"
-              label="Category"
-            ></v-select>
+          <p>category list</p>
         </v-flex>
 
         <v-flex xs7>
@@ -34,27 +30,22 @@
         </v-flex>
         <v-flex xs3 style="padding: 30px 30px;">
           <small>Bookmark 追加Form</small>
-          <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
-          >
+          
             <v-text-field
-              v-model="title"
+              v-model="postTitle"
               :counter="20"
-              :rules="nameRules"
               label="Title"
               required
             ></v-text-field>
 
             <v-text-field
-              v-model="url"
+              v-model="postUrl"
               label="URL"
               required
             ></v-text-field>
 
             <v-text-field
-              v-model="category"
+              v-model="postCategory"
               label="Category"
               required
             ></v-text-field>
@@ -67,8 +58,7 @@
               required
             ></v-select> -->
 
-            <v-btn>submit</v-btn>
-          </v-form>
+            <v-btn @click="postBookmark">submit</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -81,8 +71,10 @@ import axios from 'axios';
 export default {
   data: function () {
     return {
-      message: "Hello Vue!",
-      bookmarks: "bookmarks"
+      bookmarks: "bookmarks",
+      postTitle: "",
+      postUrl: "",
+      postCategory: "",
     }
   },
   mounted () {
@@ -94,7 +86,17 @@ export default {
       .then(response => (
         this.bookmarks = response.data
       ))
-    }
+    },
+    postBookmark: function() {
+      axios.post('/api/bookmarks', {title:this.postTitle,url:this.postUrl,category:this.postCategory})
+        .then(response => {
+          this.setBookmark();
+          this.postTitle = ''
+          this.postUrl = ''
+          this.postCategory = ''
+        }
+      );
+    },
   }
 }
 </script>
