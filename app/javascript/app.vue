@@ -5,12 +5,14 @@
       <v-layout>
         <v-flex xs2 style="justify-content: center; padding: 20px 5px 0 5px">
           <h3>フリーワードで探す</h3>
-          <v-text-field label="Input Keyword" style='margin-top:4px'></v-text-field>
+          <v-text-field v-model="searchWord" @keyup="abstruct" label="Input Keyword" style='margin-top:4px'></v-text-field>
           <br>
           <h3>カテゴリーごとに絞る</h3>
           <v-select
-            :items="items"
-            label="Category">
+            v-model='category'
+            :items="categories"
+            label="Category"
+            v-on:change="abstruct">
           </v-select>
         </v-flex>
 
@@ -22,7 +24,7 @@
           <v-layout>
             <v-flex row wrap style="justify-content: center;">
 
-              <v-card v-for="bookmark in bookmarks" :key="bookmark.id" style="margin: 10px; width: 25%">
+              <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="margin: 10px; width: 25%">
                 <v-card-title primary-title>
                   <div>
                     <h3 class="headline mb-0"><a href="#">{{ bookmark.title }}</a></h3>
@@ -42,7 +44,7 @@
         <v-flex xs2>
           <v-btn @click="togglePostModal()" style="margin: 20px 0 40px 0;">+ Bookmarkを追加する</v-btn>
           <p style="margin-right: 30px">- Bookmark List -</p>
-          <ul v-for="bookmark in bookmarks" :key="bookmark.id" style="list-style: none; margin-right: 30px">
+          <ul v-for="bookmark in bookmarkList" :key="bookmark.id" style="list-style: none; margin-right: 30px">
             <li style="margin-top: 10px;"><a href="#">{{ bookmark.title }}</a></li>
             <hr>
           </ul>
@@ -106,12 +108,19 @@ import axios from 'axios';
 export default {
   data: function () {
     return {
+      bookmarkList: ['',''],
+      allData: ['',''],
+      categories: ['All'],
+      categoriesForEdit: [],
+      category: 'ALL',
+
       bookmarks: "bookmarks",
       dialogPostFlag: false,
       postTitle: "",
       postUrl: "",
       postCategory: "",
       dialogDeleteFlag: false,
+      searchWord: '',
     }
   },
   mounted () {
@@ -120,10 +129,31 @@ export default {
   methods: {
     setBookmark: function () {
       axios.get('/api/bookmarks')
-      .then(response => (
-        this.bookmarks = response.data
-      ))
+      .then(response => {
+        // this.bookmarks = response.data
+
+        this.allData = response.data
+        this.bookmarkList = this.allData
+
+        this.listCategories();
+        this.abstruct();
+        }
+      );
     },
+
+    listCategories: function() {
+      this.categories = []
+      this.categoriesForEdit = []
+      this.categories.push('ALL')
+      var i = 0;
+      for (i=0; i<this.allData.length; i++) {
+        if (this.categories.indexOf(this.allData[i].category) == -1) {
+          this.categories.push(this.allData[i].category)
+          this.categoriesForEdit.push(this.allData[i].category)
+        }
+      }
+    },
+
     togglePostModal: function() {
       this.dialogPostFlag = !this.dialogPostFlag
     },
@@ -150,6 +180,30 @@ export default {
       this.id = id
       this.dialogDeleteFlag = !this.dialogDeleteFlag
     },
+
+    abstruct: function() {
+      var i = 0;
+
+      if (this.category == 'ALL') {
+        this.bookmarkList = []
+        for (i=0; i<this.allData.length; i++) {
+          if ((this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].category.indexOf(this.searchWord) !== -1)) {
+            this.bookmarkList.push(this.allData[i])
+          }
+        }   
+      } else if (this.category != '') { 
+        this.bookmarkList = []
+        for (i=0; i<this.allData.length; i++) {
+          if (this.allData[i].category == this.category) {
+            if ((this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].category.indexOf(this.searchWord) !== -1)) {
+              this.bookmarkList.push(this.allData[i])
+            }
+          }
+        }   
+      }
+    }
+
+
   }
 }
 </script>
@@ -162,6 +216,5 @@ p {
 
 a {
   text-decoration: none;
-  color: #333;
 }
 </style>
