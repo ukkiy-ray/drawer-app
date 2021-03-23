@@ -59,13 +59,13 @@
               required
             ></v-text-field>
 
-            <v-select
+            <!-- <v-select
               v-model="select"
               :items="items"
               :rules="[v => !!v || 'Item is required']"
               label="Category[select]"
               required
-            ></v-select>
+            ></v-select> -->
 
             <v-btn>submit</v-btn>
           </v-form>
