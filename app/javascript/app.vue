@@ -3,12 +3,20 @@
 
     <v-container style="height: 1000px; max-width: 2400px;">
       <v-layout>
-        <v-flex xs2 style="justify-content: center; padding: 0 15px">
-          <p>category list</p>
+        <v-flex xs2 style="justify-content: center; padding: 0 5px">
+          <p>Bookmark List</p>
+          <ul v-for="bookmark in bookmarks" :key="bookmark.id" style="list-style: none;">
+            <li style="margin-top: 10px;"><a href="#">{{ bookmark.title }}</a></li>
+            <hr>
+          </ul>
         </v-flex>
 
-        <v-flex xs7>
-          <p>Bookmark 一覧</p>
+        <v-flex xs8>
+          <div style="width: 100%; margin: 5px 0 20px 0; display: flex; justify-content: center;">
+            <p style="margin-right: 20px;">Bookmark 一覧</p>
+            <v-btn>+ Bookmarkを追加する</v-btn>
+          </div>
+          
           <v-layout>
             <v-flex row wrap style="justify-content: center;">
 
@@ -17,23 +25,23 @@
                   <div>
                     <h3 class="headline mb-0">{{ bookmark.title }}</h3>
                     <hr>
-                    <div>{{ bookmark.category }}</div>
+                    <div>#{{ bookmark.category }}</div>
                   </div>
                 </v-card-title>
                 <v-card-actions>
-                  <v-btn dark @click="deleteBookmark(bookmark.id)">DELETE</v-btn>
+                  <v-btn dark @click="deleteBookmark(bookmark.id)">削除</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
           </v-layout>
 
         </v-flex>
-        <v-flex xs3 style="padding: 30px 30px;">
+        <v-flex xs2 style="padding: 30px 5px;">
           <small>Bookmark 追加Form</small>
           
             <v-text-field
               v-model="postTitle"
-              :counter="20"
+              :counter="50"
               label="Title"
               required
             ></v-text-field>
@@ -115,5 +123,10 @@ export default {
 p {
   font-size: 2em;
   text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
 }
 </style>
