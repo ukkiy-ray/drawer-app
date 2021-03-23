@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
+    <meta charset="UTF-8" />
     <title>Drawer</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <header>
+      <h3 class="title">Drawer app</h3>
+      <div class="header-link">
+        <a href="#" class="user-link">Sign in</a>
+        <a href="#" class="user-link">Sign up</a>
+      </div>
+    </header>
     <%= yield %>
   </body>
 </html>
