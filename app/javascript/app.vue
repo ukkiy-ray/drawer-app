@@ -27,7 +27,11 @@
               <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="margin: 10px; width: 25%">
                 <v-card-title primary-title>
                   <div>
-                    <h3 class="headline mb-0"><a href="#">{{ bookmark.title }}</a></h3>
+                    <h3 class="headline mb-0">
+                      <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer">
+                        {{ bookmark.title }}
+                      </a>
+                    </h3>
                     <hr>
                     <div>#{{ bookmark.category }}</div>
                   </div>
@@ -45,7 +49,9 @@
           <v-btn @click="togglePostModal()" style="margin: 20px 0 40px 0;">+ Bookmarkを追加する</v-btn>
           <p style="margin-right: 30px">- Bookmark List -</p>
           <ul v-for="bookmark in bookmarkList" :key="bookmark.id" style="list-style: none; margin-right: 30px">
-            <li style="margin-top: 10px;"><a href="#">{{ bookmark.title }}</a></li>
+            <li style="margin-top: 10px;">
+              <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer">{{ bookmark.title }}</a>
+            </li>
             <hr>
           </ul>
         </v-flex>
