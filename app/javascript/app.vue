@@ -4,23 +4,19 @@
     <v-container style="height: 1000px; max-width: 2400px;">
       <v-layout>
         <v-flex xs2 style="justify-content: center; padding: 0 5px">
-          <p>Bookmark List</p>
-          <ul v-for="bookmark in bookmarks" :key="bookmark.id" style="list-style: none;">
-            <li style="margin-top: 10px;"><a href="#">{{ bookmark.title }}</a></li>
-            <hr>
-          </ul>
+          
         </v-flex>
 
         <v-flex xs8>
           <div style="width: 100%; margin: 5px 0 20px 0; display: flex; justify-content: center;">
-            <p style="margin-right: 20px;">Bookmark 一覧</p>
-            <v-btn @click="togglePostModal()">+ Bookmarkを追加する</v-btn>
+            <h1>Bookmark 一覧</h1>
+            
           </div>
           
           <v-layout>
             <v-flex row wrap style="justify-content: center;">
 
-              <v-card v-for="bookmark in bookmarks" :key="bookmark.id" style="margin: 10px 5px; width: 25%">
+              <v-card v-for="bookmark in bookmarks" :key="bookmark.id" style="margin: 10px; width: 25%">
                 <v-card-title primary-title>
                   <div>
                     <h3 class="headline mb-0">{{ bookmark.title }}</h3>
@@ -29,44 +25,21 @@
                   </div>
                 </v-card-title>
                 <v-card-actions>
-                  <v-btn dark @click="deleteBookmark(bookmark.id)">削除</v-btn>
+                  <v-btn dark @click="toggleDeleteModal(bookmark.id)">Delete</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
           </v-layout>
 
         </v-flex>
-        <v-flex xs2 style="padding: 30px 5px;">
-          <small>Bookmark 追加Form</small>
-          
-            <v-text-field
-              v-model="postTitle"
-              :counter="50"
-              label="Title"
-              required
-            ></v-text-field>
 
-            <v-text-field
-              v-model="postUrl"
-              label="URL"
-              required
-            ></v-text-field>
-
-            <v-text-field
-              v-model="postCategory"
-              label="Category"
-              required
-            ></v-text-field>
-
-            <!-- <v-select
-              v-model="select"
-              :items="items"
-              :rules="[v => !!v || 'Item is required']"
-              label="Category[select]"
-              required
-            ></v-select> -->
-
-            <v-btn @click="postBookmark">submit</v-btn>
+        <v-flex xs2>
+          <v-btn @click="togglePostModal()" style="margin: 20px 0 40px 0;">+ Bookmarkを追加する</v-btn>
+          <p style="margin-right: 30px">- Bookmark List -</p>
+          <ul v-for="bookmark in bookmarks" :key="bookmark.id" style="list-style: none; margin-right: 30px">
+            <li style="margin-top: 10px;"><a href="#">{{ bookmark.title }}</a></li>
+            <hr>
+          </ul>
         </v-flex>
       </v-layout>
 
@@ -94,6 +67,29 @@
           </v-card>
         </v-dialog>
 
+        <!----------------------------------- 削除モーダル ------------------------------------------------>
+        <v-dialog v-model="dialogDeleteFlag" width="400">
+          <v-card>
+            <v-card-title class="headline blue-grey darken-3 white--text" primary-title>
+              Confirm
+            </v-card-title>
+            <br>
+            <br>
+            <v-card-text>
+              <p>本当に削除してもよろしいですか？</p>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn dark class="yellow--text" @click="deleteBookmark()">
+                Delete
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
     </v-container>
   </v-app> 
 </template>
@@ -109,6 +105,7 @@ export default {
       postTitle: "",
       postUrl: "",
       postCategory: "",
+      dialogDeleteFlag: false,
     }
   },
   mounted () {
@@ -135,15 +132,17 @@ export default {
       );
       this.dialogPostFlag = !this.dialogPostFlag
     },
-    deleteBookmark(id) {
-      if (confirm("このBookmarkを削除しますか？")) {
-        axios.delete(`/api/bookmarks/${id}`)
-          .then(response => {
-            this.setBookmark();
-          }
-        );
-      }
-      
+    deleteBookmark: function() {
+      axios.delete(`/api/bookmarks/${this.id}`)
+        .then(response => {
+          this.setBookmark();
+        }
+      );
+      this.dialogDeleteFlag = !this.dialogDeleteFlag
+    },
+    toggleDeleteModal: function(id) {
+      this.id = id
+      this.dialogDeleteFlag = !this.dialogDeleteFlag
     },
   }
 }
@@ -151,7 +150,7 @@ export default {
 
 <style scoped>
 p {
-  font-size: 2em;
+  font-size: 20px;
   text-align: center;
 }
 
