@@ -8,6 +8,6 @@ Rails.application.routes.draw do
   }
 
   namespace :api, format: 'json' do
-    resources :bookmarks, only: [:index, :show, :create]
+    resources :bookmarks, only: [:index, :show, :create, :destroy]
   end
 end

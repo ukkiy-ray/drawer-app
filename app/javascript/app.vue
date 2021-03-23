@@ -21,7 +21,7 @@
                   </div>
                 </v-card-title>
                 <v-card-actions>
-                  <v-btn dark>DELETE</v-btn>
+                  <v-btn dark @click="deleteBookmark(bookmark.id)">DELETE</v-btn>
                 </v-card-actions>
               </v-card>
             </v-flex>
@@ -96,6 +96,16 @@ export default {
           this.postCategory = ''
         }
       );
+    },
+    deleteBookmark(id) {
+      if (confirm("このBookmarkを削除しますか？")) {
+        axios.delete(`/api/bookmarks/${id}`)
+          .then(response => {
+            this.setBookmark();
+          }
+        );
+      }
+      
     },
   }
 }
