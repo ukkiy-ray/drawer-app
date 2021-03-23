@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
 
-    <v-container style="height: 1000px; max-width: 2400px;">
+    <v-container style="height: 1000px; max-width: 2400px; padding: 0 20px;">
       <v-layout>
         <v-flex xs2 style="justify-content: center; padding: 20px 5px 0 5px">
           <h3>フリーワードで探す</h3>
@@ -24,21 +24,24 @@
           <v-layout>
             <v-flex row wrap style="justify-content: center;">
 
-              <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="margin: 10px; width: 25%">
-                <v-card-title primary-title>
-                  <div>
-                    <h3 class="headline mb-0">
-                      <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer">
+              <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="margin: 10px 25px; width: 80%">
+                <v-card-title primary-title style="width: 100%;">
+                  <div style="width: 100%;">
+                    <div class="headline mb-0">
+                      <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer" style="font-size: 18px;">
                         {{ bookmark.title }}
                       </a>
-                    </h3>
-                    <hr>
-                    <div>#{{ bookmark.category }}</div>
+                    </div>
+                    <v-divider></v-divider>
+                    <div style="font-size: 16px; display: flex; justify-content: space-between; width: 100%">
+                      <div>#{{ bookmark.category }}</div>
+                      <v-btn dark @click="toggleDeleteModal(bookmark.id)">Delete</v-btn>
+                    </div>
                   </div>
                 </v-card-title>
-                <v-card-actions>
+                <!-- <v-card-actions>
                   <v-btn dark @click="toggleDeleteModal(bookmark.id)">Delete</v-btn>
-                </v-card-actions>
+                </v-card-actions> -->
               </v-card>
             </v-flex>
           </v-layout>
