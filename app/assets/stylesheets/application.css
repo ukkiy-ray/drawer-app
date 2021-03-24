@@ -18,6 +18,11 @@
   box-sizing: border-box;
 }
 
+body {
+  margin: 0px;
+  background-color: #F8F8FF;
+}
+
  header {
    height: 60px;
    width: auto;
@@ -52,4 +57,92 @@
  .user-link:hover {
    background-color: rgba(255, 255, 255, 0.7);
    color: black;
+ }
+
+ .main {
+   width: auto;
+   height: 100vh;
+   display: flex;
+   justify-content: center;
+ }
+
+ .user-form {
+   margin-top: 50px;
+   width: 500px;
+   padding: 0 100px;
+ }
+
+ #error_explanation {
+  position: absolute;
+  top: 120px;
+  left: 45px;
+}
+
+.error-title {
+  font-size: 18px;
+  color: red;
+}
+
+ .form-title {
+   width: auto;
+   text-align: center;
+ }
+
+ .field {
+   margin-top: 25px;
+   width: 100%;
+ }
+
+ .input {
+   margin-top: 4px;
+   width: 300px;
+   height: 32px;
+   padding: 4px;
+   border: 1px solid #222;
+ }
+
+ .actions {
+   margin-top: 30px;
+   width: auto;
+   display: flex;
+   justify-content: center;
+ }
+
+ .submit-btn {
+   height: 30px;
+   width: 300px;
+   padding: 0 8px;
+   font-size: 20px;
+   line-height: 30px;
+   cursor: pointer;
+   background-color: #91bae9;
+   color: #333;
+   border: none;
+ }
+
+ .must {
+   color: red;
+   font-size: 14px;
+   margin-left: 15px;
+ }
+
+ .bottom-contents {
+   text-align: center;
+ }
+
+ .or {
+   font-size: 16px;
+   font-style: oblique;
+   font-weight: bold;
+ }
+
+ .share-link {
+   text-decoration: none;
+   display: inline-block;
+   margin-top: 15px;
+   color: #222;
+   font-size: 20px;
+   border: none;
+   width: 300px;
+   background-color: #ef9df4;
  }

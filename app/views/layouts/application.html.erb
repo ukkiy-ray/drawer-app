@@ -13,8 +13,13 @@
     <header>
       <h3 class="title">Drawer app</h3>
       <div class="header-link">
-        <a href="#" class="user-link">Sign in</a>
-        <a href="#" class="user-link">Sign up</a>
+        <% if user_signed_in? %>
+          <div class="user-link"><%= current_user.nickname %></div>
+          <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "user-link" %>
+        <% else %>
+          <%= link_to "Sign in", new_user_session_path, class: "user-link" %>
+          <%= link_to "Sign up", new_user_registration_path, class: "user-link" %>
+        <% end %>
       </div>
     </header>
     <%= yield %>
