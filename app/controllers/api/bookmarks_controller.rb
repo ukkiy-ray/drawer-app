@@ -2,7 +2,7 @@ class Api::BookmarksController < ApplicationController
   protect_from_forgery :except => [:create, :destroy]
 
   def index
-    @bookmarks = Bookmark.order('created_at DESC')
+    @bookmarks = Bookmark.where(user_id: current_user.id).order('created_at DESC')
   end
 
   def show
@@ -30,6 +30,6 @@ class Api::BookmarksController < ApplicationController
  
   private
     def bookmark_params
-      params.permit(:title, :url, :category)
+      params.require(:bookmark).permit(:title, :url, :category).merge(user_id: current_user.id)
     end
 end
