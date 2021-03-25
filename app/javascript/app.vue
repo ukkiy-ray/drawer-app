@@ -23,45 +23,46 @@
           
           <v-layout>
             <v-flex row wrap style="justify-content: center;">
+              <draggable style="margin: 0 25px; width: 80%; cursor: pointer;">
+                <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="width: 100%">
+                  <v-card-title primary-title style="margin-bottom: 15px; width: 100%; padding-bottom: 10px;">
+                    <div style="width: 100%;">
+                      <div class="headline mb-0" style="display: flex; justify-content: space-between; width: 100%">
+                        <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer" style="font-size: 18px;">
+                          {{ bookmark.title }}
+                        </a>
+                        
+                        <v-tooltip right>
+                          <template v-slot:activator="{ on }">
+                            <v-btn light v-on="on" @click="togglePutModal(bookmark.id)" style="margin-bottom: 8px">
+                              <span class="material-icons" style="margin-right: 4px;">create</span>
+                            </v-btn>
+                          </template>
+                          <span>編集する</span>
+                        </v-tooltip>
 
-              <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="margin: 10px 25px; width: 80%">
-                <v-card-title primary-title style="width: 100%; padding-bottom: 10px;">
-                  <div style="width: 100%;">
-                    <div class="headline mb-0" style="display: flex; justify-content: space-between; width: 100%">
-                      <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer" style="font-size: 18px;">
-                        {{ bookmark.title }}
-                      </a>
-                      
-                      <v-tooltip right>
-                        <template v-slot:activator="{ on }">
-                          <v-btn light v-on="on" @click="togglePutModal(bookmark.id)" style="margin-bottom: 8px">
-                            <span class="material-icons" style="margin-right: 4px;">create</span>
-                          </v-btn>
-                        </template>
-                        <span>編集する</span>
-                      </v-tooltip>
+                      </div>
+                      <v-divider></v-divider>
+                      <div style="font-size: 16px; display: flex; justify-content: space-between; width: 100%">
+                        <div>#{{ bookmark.category }}</div>
+                        
+                        <v-tooltip right>
+                          <template v-slot:activator="{ on }">
+                            <v-btn dark v-on="on" @click="toggleDeleteModal(bookmark.id)" style="margin-top: 8px">
+                              <span class="material-icons" style="margin-right: 4px;">delete</span>
+                            </v-btn>
+                          </template>
+                          <span>削除する</span>
+                        </v-tooltip>
 
+                      </div>
                     </div>
-                    <v-divider></v-divider>
-                    <div style="font-size: 16px; display: flex; justify-content: space-between; width: 100%">
-                      <div>#{{ bookmark.category }}</div>
-                      
-                      <v-tooltip right>
-                        <template v-slot:activator="{ on }">
-                          <v-btn dark v-on="on" @click="toggleDeleteModal(bookmark.id)" style="margin-top: 8px">
-                            <span class="material-icons" style="margin-right: 4px;">delete</span>
-                          </v-btn>
-                        </template>
-                        <span>削除する</span>
-                      </v-tooltip>
-
-                    </div>
-                  </div>
-                </v-card-title>
-                <!-- <v-card-actions>
-                  <v-btn dark @click="toggleDeleteModal(bookmark.id)">Delete</v-btn>
-                </v-card-actions> -->
-              </v-card>
+                  </v-card-title>
+                  <!-- <v-card-actions>
+                    <v-btn dark @click="toggleDeleteModal(bookmark.id)">Delete</v-btn>
+                  </v-card-actions> -->
+                </v-card>
+              </draggable>
             </v-flex>
           </v-layout>
 
@@ -159,6 +160,7 @@
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import Loading from './components/Loading'
 import axios from 'axios';
 
@@ -198,6 +200,7 @@ export default {
   },
   components: {
     Loading,
+    draggable,
   },
   methods: {
     setBookmark: function () {
