@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-
+    <Loading v-show="loading"></Loading>
     <v-container style="height: 1000px; max-width: 2400px; padding: 0 20px;">
       <v-layout>
         <v-flex xs2 style="justify-content: center; padding: 20px 5px 0 5px">
@@ -112,11 +112,13 @@
 </template>
 
 <script>
+import Loading from './components/Loading'
 import axios from 'axios';
 
 export default {
   data: function () {
     return {
+      loading: true,
       bookmarkList: ['',''],
       allData: ['',''],
       categories: ['All'],
@@ -134,6 +136,12 @@ export default {
   },
   mounted () {
     this.setBookmark();
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+  },
+  components: {
+    Loading,
   },
   methods: {
     setBookmark: function () {
