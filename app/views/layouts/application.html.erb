@@ -14,7 +14,7 @@
       <h3 class="title">Drawer app</h3>
       <div class="header-link">
         <% if user_signed_in? %>
-          <div class="user-link"><%= current_user.nickname %></div>
+          <div class="user-link user-name"><%= current_user.nickname %></div>
           <%= link_to "Sign out", destroy_user_session_path, method: :delete, class: "user-link" %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path, class: "user-link" %>

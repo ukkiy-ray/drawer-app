@@ -1,6 +1,6 @@
 <template>
   <v-app id="app">
-    <Loading v-show="loading"></Loading>
+    <Loading v-show="isLoading"></Loading>
     <v-container style="height: 1000px; max-width: 2400px; padding: 0 20px;">
       <v-layout>
         <v-flex xs2 style="justify-content: center; padding: 20px 5px 0 5px">
@@ -69,7 +69,7 @@
 
             <v-text-field v-model="postTitle" :counter="50" label="Title" required style='margin:20px;'></v-text-field> 
             <v-text-field v-model="postUrl" label="URL" required style='margin:20px;'></v-text-field> 
-            <v-text-field v-model="postCategory" label="Category" required style='margin:20px;'></v-text-field> 
+            <v-text-field v-model="postCategory" :counter="50" label="Category" required style='margin:20px;'></v-text-field> 
             <v-select v-model='postCategory' :items="categoriesForEdit" label="Category [select]" style='margin:20px;'></v-select>
 
             <v-divider></v-divider>
@@ -119,7 +119,7 @@ import axios from 'axios';
 export default {
   data: function () {
     return {
-      loading: true,
+      isLoading: true,
       bookmarkList: ['',''],
       allData: ['',''],
       categories: ['All'],
@@ -136,10 +136,13 @@ export default {
     }
   },
   mounted () {
+    axios.get("/api/bookmarks")
+    .then(response => {
+        this.allData = response.data;
+        this.isLoading = false;
+      }
+    );
     this.setBookmark();
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
   },
   components: {
     Loading,
