@@ -23,7 +23,7 @@
           
           <v-layout>
             <v-flex row wrap style="justify-content: center;">
-              <draggable style="margin: 0 25px; width: 80%; cursor: pointer;">
+              <draggable v-model="bookmarkList" style="margin: 0 25px; width: 80%; cursor: pointer;">
                 <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="width: 100%">
                   <v-card-title primary-title style="margin-bottom: 15px; width: 100%; padding-bottom: 10px;">
                     <div style="width: 100%;">
