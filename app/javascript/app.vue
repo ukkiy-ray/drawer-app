@@ -27,16 +27,20 @@
               <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="margin: 10px 25px; width: 80%">
                 <v-card-title primary-title style="width: 100%; padding-bottom: 10px;">
                   <div style="width: 100%;">
-                    <div class="headline mb-0">
+                    <div class="headline mb-0" style="display: flex; justify-content: space-between; width: 100%">
                       <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer" style="font-size: 18px;">
                         {{ bookmark.title }}
                       </a>
+                      <v-btn light @click="togglePutModal(bookmark.id)" style="margin-bottom: 8px">
+                        <span class="material-icons" style="margin-right: 4px;">create</span>
+                      </v-btn>
                     </div>
                     <v-divider></v-divider>
                     <div style="font-size: 16px; display: flex; justify-content: space-between; width: 100%">
                       <div>#{{ bookmark.category }}</div>
+                      
                       <v-btn dark @click="toggleDeleteModal(bookmark.id)" style="margin-top: 8px">
-                        <span class="material-icons" style="margin-right: 4px;">delete</span>DELETE
+                        <span class="material-icons" style="margin-right: 4px;">delete</span>
                       </v-btn>
                     </div>
                   </div>
@@ -89,6 +93,31 @@
           </v-card>
         </v-dialog>
 
+      <!-- 更新用モーダルウィンドウ -->
+        <v-dialog v-model="dialogPutFlag" width="500px" persistent>
+          <v-card>
+            <v-card-title class="headline blue-grey darken-3 white--text" primary-title>
+              Edit Form
+            </v-card-title>
+
+            <v-text-field v-model="putTitle" :counter="50" label="Title" required style='margin:20px;'></v-text-field> 
+            <v-text-field v-model="putUrl" label="URL" required style='margin:20px;'></v-text-field> 
+            <v-text-field v-model="putCategory" :counter="50" label="Category" required style='margin:20px;'></v-text-field> 
+            <v-select v-model='putCategory' :items="categoriesForEdit" label="Category [select]" style='margin:20px;'></v-select>
+
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-btn dark @click="cancel">
+                Cancel
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn @click="putBookmark">
+                Update
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <!----------------------------------- 削除モーダル ------------------------------------------------>
         <v-dialog v-model="dialogDeleteFlag" width="400">
           <v-card>
@@ -135,6 +164,12 @@ export default {
       postTitle: "",
       postUrl: "",
       postCategory: "",
+
+      dialogPutFlag: false,
+      putTitle: '',
+      putUrl: '',
+      putCategory: '',
+
       dialogDeleteFlag: false,
       searchWord: '',
     }
@@ -193,6 +228,29 @@ export default {
       );
       this.dialogPostFlag = !this.dialogPostFlag
     },
+    togglePutModal: function(id) {
+      this.id = id
+      axios.get(`/api/bookmarks/${this.id}.json`)
+        .then(response => {
+          this.putTitle = response.data.title
+          this.putUrl = response.data.url
+          this.putCategory = response.data.category
+        }
+      );
+      this.dialogPutFlag = !this.dialogPutFlag
+    },
+    putBookmark: function() {
+      axios.put(`/api/bookmarks/${this.id}`, {title:this.putTitle, url:this.putUrl, category:this.putCategory})
+        .then(response => {
+          this.setBookmark();
+        }
+      );
+      this.dialogPutFlag = !this.dialogPutFlag
+    },
+    cancel: function() {
+      this.dialogPutFlag = !this.dialogPutFlag
+    },
+
     deleteBookmark: function() {
       axios.delete(`/api/bookmarks/${this.id}`)
         .then(response => {
