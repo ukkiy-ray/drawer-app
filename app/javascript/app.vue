@@ -25,7 +25,7 @@
             <v-flex row wrap style="justify-content: center;">
 
               <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="margin: 10px 25px; width: 80%">
-                <v-card-title primary-title style="width: 100%;">
+                <v-card-title primary-title style="width: 100%; padding-bottom: 10px;">
                   <div style="width: 100%;">
                     <div class="headline mb-0">
                       <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer" style="font-size: 18px;">
@@ -35,7 +35,9 @@
                     <v-divider></v-divider>
                     <div style="font-size: 16px; display: flex; justify-content: space-between; width: 100%">
                       <div>#{{ bookmark.category }}</div>
-                      <v-btn dark @click="toggleDeleteModal(bookmark.id)">Delete</v-btn>
+                      <v-btn dark @click="toggleDeleteModal(bookmark.id)" style="margin-top: 8px">
+                        <span class="material-icons" style="margin-right: 4px;">delete</span>DELETE
+                      </v-btn>
                     </div>
                   </div>
                 </v-card-title>
@@ -49,7 +51,9 @@
         </v-flex>
 
         <v-flex xs2>
-          <v-btn @click="togglePostModal()" style="margin: 20px 0 40px 0;">+ Bookmarkを追加する</v-btn>
+          <v-btn @click="togglePostModal()" style="margin: 20px 0 40px 0;">
+            <span class="material-icons" style="margin-right: 4px;">add</span>Bookmarkを追加する
+          </v-btn>
           <p style="margin-right: 30px">- Bookmark List -</p>
           <ul v-for="bookmark in bookmarkList" :key="bookmark.id" style="list-style: none; margin-right: 30px">
             <li style="margin-top: 10px;">
