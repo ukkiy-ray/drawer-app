@@ -31,17 +31,30 @@
                       <a v-bind:href="bookmark.url" target="_blank" rel="noopener noreferrer" style="font-size: 18px;">
                         {{ bookmark.title }}
                       </a>
-                      <v-btn light @click="togglePutModal(bookmark.id)" style="margin-bottom: 8px">
-                        <span class="material-icons" style="margin-right: 4px;">create</span>
-                      </v-btn>
+                      
+                      <v-tooltip right>
+                        <template v-slot:activator="{ on }">
+                          <v-btn light v-on="on" @click="togglePutModal(bookmark.id)" style="margin-bottom: 8px">
+                            <span class="material-icons" style="margin-right: 4px;">create</span>
+                          </v-btn>
+                        </template>
+                        <span>編集する</span>
+                      </v-tooltip>
+
                     </div>
                     <v-divider></v-divider>
                     <div style="font-size: 16px; display: flex; justify-content: space-between; width: 100%">
                       <div>#{{ bookmark.category }}</div>
                       
-                      <v-btn dark @click="toggleDeleteModal(bookmark.id)" style="margin-top: 8px">
-                        <span class="material-icons" style="margin-right: 4px;">delete</span>
-                      </v-btn>
+                      <v-tooltip right>
+                        <template v-slot:activator="{ on }">
+                          <v-btn dark v-on="on" @click="toggleDeleteModal(bookmark.id)" style="margin-top: 8px">
+                            <span class="material-icons" style="margin-right: 4px;">delete</span>
+                          </v-btn>
+                        </template>
+                        <span>削除する</span>
+                      </v-tooltip>
+
                     </div>
                   </div>
                 </v-card-title>
@@ -96,7 +109,7 @@
       <!-- 更新用モーダルウィンドウ -->
         <v-dialog v-model="dialogPutFlag" width="500px" persistent>
           <v-card>
-            <v-card-title class="headline blue-grey darken-3 white--text" primary-title>
+            <v-card-title class="headline orange darken-4 white--text" primary-title>
               Edit Form
             </v-card-title>
 
