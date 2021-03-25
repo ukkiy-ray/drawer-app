@@ -70,6 +70,7 @@
             <v-text-field v-model="postTitle" :counter="50" label="Title" required style='margin:20px;'></v-text-field> 
             <v-text-field v-model="postUrl" label="URL" required style='margin:20px;'></v-text-field> 
             <v-text-field v-model="postCategory" label="Category" required style='margin:20px;'></v-text-field> 
+            <v-select v-model='postCategory' :items="categoriesForEdit" label="Category [select]" style='margin:20px;'></v-select>
 
             <v-divider></v-divider>
             <v-card-actions>
