@@ -58,9 +58,6 @@
                       </div>
                     </div>
                   </v-card-title>
-                  <!-- <v-card-actions>
-                    <v-btn dark @click="toggleDeleteModal(bookmark.id)">Delete</v-btn>
-                  </v-card-actions> -->
                 </v-card>
               </draggable>
             </v-flex>
