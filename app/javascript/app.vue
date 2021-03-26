@@ -24,7 +24,7 @@
           <v-layout>
             <v-flex row wrap style="justify-content: center;">
               <draggable v-model="bookmarkList" style="margin: 0 25px; width: 80%; cursor: pointer;">
-                <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" style="width: 100%">
+                <v-card v-for="bookmark in bookmarkList" :key="bookmark.id" :items-per-page="itemsPerPage" style="width: 100%">
                   <v-card-title primary-title style="margin-bottom: 15px; width: 100%; padding-bottom: 10px;">
                     <div style="width: 100%;">
                       <div class="headline mb-0" style="display: flex; justify-content: space-between; width: 100%">
@@ -62,7 +62,13 @@
               </draggable>
             </v-flex>
           </v-layout>
-
+          <div class="text-xs-center" style="margin-top: 20px;">
+            <v-pagination
+              v-model="currentPage"
+              :length="totalPages"
+              @input="setBookmark"
+            ></v-pagination>
+          </div>
         </v-flex>
 
         <v-flex xs2>
@@ -189,6 +195,10 @@ export default {
 
       dialogDeleteFlag: false,
       searchWord: '',
+
+      currentPage: 1,
+      itemsPerPage: 3,
+      totalPages: null,
     }
   },
   mounted () {
@@ -206,12 +216,13 @@ export default {
   },
   methods: {
     setBookmark: function () {
-      axios.get('/api/bookmarks')
+      const url = `/api/bookmarks?page=${this.currentPage}?per=${this.itemsPerPage}`;
+      axios.get(url)
       .then(response => {
-        // this.bookmarks = response.data
 
-        this.allData = response.data
+        this.allData = response.data.bookmarks
         this.bookmarkList = this.allData
+        this.totalPages = response.data.total_pages
 
         this.listCategories();
         this.abstruct();

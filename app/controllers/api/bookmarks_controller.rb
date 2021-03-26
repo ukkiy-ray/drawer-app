@@ -2,7 +2,17 @@ class Api::BookmarksController < ApplicationController
   protect_from_forgery :except => [:create, :update, :destroy]
 
   def index
-    @bookmarks = Bookmark.where(user_id: current_user.id).order('created_at DESC')
+    page = params[:page] || 1
+    per = params[:per] || 10
+
+    @bookmarks = Bookmark.where(user_id: current_user.id).order('created_at DESC').page(page).per(per)
+    total_pages = @bookmarks.total_pages
+
+    response = {
+      bookmarks: @bookmarks,
+      total_pages: total_pages,
+    }
+    render json: response
   end
 
   def show
