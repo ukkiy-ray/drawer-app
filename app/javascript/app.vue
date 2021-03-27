@@ -62,7 +62,7 @@
               </draggable>
             </v-flex>
           </v-layout>
-          <div class="text-xs-center" style="margin-top: 20px;">
+          <div class="text-xs-center" style="margin: 20px 0 40px 0;">
             <v-pagination
               v-model="currentPage"
               :length="totalPages"
