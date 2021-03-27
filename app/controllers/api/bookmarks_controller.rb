@@ -3,7 +3,7 @@ class Api::BookmarksController < ApplicationController
 
   def index
     page = params[:page] || 1
-    per = params[:per] || 10
+    per = params[:per] || 30
 
     @bookmarks = Bookmark.where(user_id: current_user.id).order('created_at DESC').page(page).per(per)
     total_pages = @bookmarks.total_pages
