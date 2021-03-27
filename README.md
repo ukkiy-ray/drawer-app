@@ -19,16 +19,21 @@ https://drawer-app-0213.herokuapp.com/
 ## テスト用アカウント
 メールアドレス : test01@test.com  
 パスワード : test01test01
+
 <br>
 
 
 ## 利用方法（各機能の詳細は下記にあります。）
 [URL](https://drawer-app-0213.herokuapp.com/)にアクセスすると、ログイン画面が表示されます。そちらから上記のテストアカウントを入力するもしくは新規登録をしていただくとアプリケーションをご利用できます。(当アプリケーションはデモのため個人情報は登録しないよう宜しくお願いいたします。)
+
 <br>
+
 
 ## 目指した課題解決
 プログラミングを勉強するエンジニアが、公式ドキュメントやよく利用するサイト、一時的にメモしておきたい情報のURL等、大量に嵩張ってしまう情報源をを個人でカテゴライズして管理し、容易に検索し情報を引き出すことで学習効率の向上に繋げることを目指して開発しました。
+
 <br>
+
 
 ## 洗い出した要件定義
 
@@ -218,7 +223,6 @@ https://drawer-app-0213.herokuapp.com/
       <li style="margin-bottom: 5px;">yarn : 1.22.5</li>
       <li style="margin-bottom: 5px;">Vue.js : 2.6.12</li>
       <li style="margin-bottom: 5px;">Vuetify : 2.4.7</li>
-      <li>axios : 0.21.1</li>
     </ul>
 </div>
 <br>
